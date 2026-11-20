@@ -19,12 +19,11 @@ dependencias:
     - name: Resolver dependencias
       run: npm install --package-lock-only
     - name: Generar SBOM con Trivy
-      run: docker run --rm -v "$PWD:/src" aquasec/trivy:latest fs --format cyclonedx --
-output /src/sbom.json /src
-  - name: Guardar SBOM
-    uses: actions/upload-artifact@v4
-    with:
-      name: sbom
-      path: sbom.json
-  - name: Gate de dependencias
-    run: npm audit --audit-level=high
+      run: docker run --rm -v "$PWD:/src" aquasec/trivy:latest fs --format cyclonedx -- output /src/sbom.json /src
+    - name: Guardar SBOM
+      uses: actions/upload-artifact@v4
+      with:
+        name: sbom
+        path: sbom.json
+    - name: Gate de dependencias
+      run: npm audit --audit-level=high
